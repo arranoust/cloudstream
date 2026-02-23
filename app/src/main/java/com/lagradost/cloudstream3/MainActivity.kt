@@ -38,6 +38,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.marginStart
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -89,6 +90,8 @@ import com.lagradost.cloudstream3.network.initClient
 import com.lagradost.cloudstream3.plugins.PluginManager
 import com.lagradost.cloudstream3.plugins.PluginManager.___DO_NOT_CALL_FROM_A_PLUGIN_loadAllOnlinePlugins
 import com.lagradost.cloudstream3.plugins.PluginManager.loadSinglePlugin
+import com.lagradost.cloudstream3.plugins.RepositoryManager
+import com.lagradost.cloudstream3.plugins.RepositoryData
 import com.lagradost.cloudstream3.receivers.VideoDownloadRestartReceiver
 import com.lagradost.cloudstream3.services.SubscriptionWorkManager
 import com.lagradost.cloudstream3.syncproviders.AccountManager
@@ -178,6 +181,7 @@ import com.lagradost.cloudstream3.utils.setText
 import com.lagradost.cloudstream3.utils.setTextHtml
 import com.lagradost.cloudstream3.utils.txt
 import com.lagradost.safefile.SafeFile
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.io.File
@@ -1203,8 +1207,6 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
                     url = repoUrl
                 )
             )
-
-            delay(300)
         }
     }
         
