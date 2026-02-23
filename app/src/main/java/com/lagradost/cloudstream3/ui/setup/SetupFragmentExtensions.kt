@@ -55,7 +55,7 @@ class SetupFragmentExtensions : BaseFragment<FragmentSetupExtensionsBinding>(
             binding?.blankRepoScreen?.isVisible = !hasRepos
 
             if (hasRepos) {
-                binding?.repoRecyclerView?.adapter = RepoAdapter(true, {}, {
+                binding?.repoRecyclerView?.adapter = RepoAdapter(false, {}, {
                     PluginsViewModel.downloadAll(activity, it.url, null)
                 }).apply { submitList(repositories.toList()) }
             }
