@@ -1,0 +1,45 @@
+name: Build CloudStream APK
+
+on:
+  push:
+    branches: [ "master" ] # Sesuaikan jika branch utama kamu bukan master
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch: # Memungkinkan jalankan manual dari tab Actions
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+      with:
+        submodules: true # Penting jika ada submodule di repo
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Grant Execute Permission for Gradlew
+      run: chmod +x gradlew
+
+    - name: Build with Gradle
+      run: ./gradlew assembleDebug --stacktrace
+      # Kita gunakan assembleDebug agar tidak butuh keystore rumit di awal. 
+      # Jika ingin Release, ganti ke assembleRelease.
+
+    - name: Sign APK (Debug Sign)
+      # CloudStream butuh signature agar bisa diinstall. 
+      # Step ini akan menggunakan debug key bawaan Android.
+      run: ./gradlew assembleDebug
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: CloudStream-Custom-Build
+        path: app/build/outputs/apk/debug/*.apk
+        retention-days: 7
