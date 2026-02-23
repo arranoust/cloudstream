@@ -1187,6 +1187,26 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
         setNavigationBarColorCompat(R.attr.primaryGrayBackground)
         updateLocale()
         super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch {
+
+        val repoUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/builds/repo.json"
+        val repoName = "MiraiExt"
+
+        val currentRepos = RepositoryManager.getRepositories()
+
+        if (currentRepos.none { it.url == repoUrl }) {
+
+            RepositoryManager.addRepository(
+                RepositoryData(
+                    name = repoName,
+                    url = repoUrl
+                )
+            )
+
+            delay(300)
+        }
+    }
         
         try {
             if (isCastApiAvailable()) {
