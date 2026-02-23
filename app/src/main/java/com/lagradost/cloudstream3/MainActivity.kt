@@ -1187,16 +1187,21 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
         setNavigationBarColorCompat(R.attr.primaryGrayBackground)
         updateLocale()
         super.onCreate(savedInstanceState)
-
-        // Versi Direct Inject - Simpel & To The Point
+        
+        // Pakai path yang sesuai dengan SettingsProviders.kt di screenshot-mu
         val repoUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/refs/heads/builds/repo.json"
         val repoName = "MiraiExt"
 
-        val current = com.lagradost.cloudstream3.utils.DataStoreHelper.getKey<Array<com.lagradost.cloudstream3.ui.settings.SettingsExtensions.RepositoryData>>("repository_data")
-        if (current?.any { it.url == repoUrl } != true) {
-            val newData = (current ?: emptyArray()) + com.lagradost.cloudstream3.ui.settings.SettingsExtensions.RepositoryData(repoName, repoUrl, true)
-            com.lagradost.cloudstream3.utils.DataStoreHelper.setKey("repository_data", newData)
-        }
+        try {
+            val current = com.lagradost.cloudstream3.utils.DataStoreHelper.getKey<Array<com.lagradost.cloudstream3.ui.settings.SettingsProviders.RepositoryData>>("repository_data")
+    
+            if (current?.any { it.url == repoUrl } != true) {
+                val newList = (current ?: emptyArray()) + com.lagradost.cloudstream3.ui.settings.SettingsProviders.RepositoryData(repoName, repoUrl, true)
+                com.lagradost.cloudstream3.utils.DataStoreHelper.setKey("repository_data", newList)
+            }
+        } catch (e: Exception) {
+        // Supaya tidak crash kalau ada masalah database saat startup
+    }
 
         try {
             if (isCastApiAvailable()) {
