@@ -126,7 +126,6 @@ import com.lagradost.cloudstream3.ui.settings.SettingsGeneral
 import com.lagradost.cloudstream3.ui.setup.HAS_DONE_SETUP_KEY
 import com.lagradost.cloudstream3.ui.setup.SetupFragmentExtensions
 import com.lagradost.cloudstream3.utils.ApkInstaller
-import com.lagradost.cloudstream3.utils.AppUtils.addRepository
 import com.lagradost.cloudstream3.utils.AppContextUtils.getApiDubstatusSettings
 import com.lagradost.cloudstream3.utils.AppContextUtils.html
 import com.lagradost.cloudstream3.utils.AppContextUtils.isCastApiAvailable
@@ -1188,13 +1187,17 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
         setNavigationBarColorCompat(R.attr.primaryGrayBackground)
         updateLocale()
         super.onCreate(savedInstanceState)
-        thread {
-            val repoUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/refs/heads/builds/repo.json"
-            val repos = it.getRepositories() // Ambil list repo yang ada
-            if (repos.none { it.url == repoUrl }) {
-                it.addRepository(RepositoryData("MiraiExt", repoUrl, true))
-            }
+
+        // Versi Direct Inject - Simpel & To The Point
+        val repoUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/refs/heads/builds/repo.json"
+        val repoName = "MiraiExt"
+
+        val current = com.lagradost.cloudstream3.utils.DataStoreHelper.getKey<Array<com.lagradost.cloudstream3.ui.settings.SettingsExtensions.RepositoryData>>("repository_data")
+        if (current?.any { it.url == repoUrl } != true) {
+            val newData = (current ?: emptyArray()) + com.lagradost.cloudstream3.ui.settings.SettingsExtensions.RepositoryData(repoName, repoUrl, true)
+            com.lagradost.cloudstream3.utils.DataStoreHelper.setKey("repository_data", newData)
         }
+
         try {
             if (isCastApiAvailable()) {
                 CastContext.getSharedInstance(this) { it.run() }
