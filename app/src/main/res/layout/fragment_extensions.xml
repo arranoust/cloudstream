@@ -218,6 +218,7 @@
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/add_repo_button"
         style="@style/ExtendedFloatingActionButton"
+        android:visibility="gone"
         android:foreground="@drawable/outline_drawable"
         android:nextFocusDown="@id/plugin_storage_appbar"
         android:text="@string/add_repository"

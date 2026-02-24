@@ -1195,6 +1195,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
         lifecycleScope.launch {
 
         val repoUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/builds/repo.json"
+        val miraiIconUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/main/.github/icon/icon.png"
         val repoName = "MiraiExt"
 
         val currentRepos = RepositoryManager.getRepositories()
@@ -1204,7 +1205,8 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
             RepositoryManager.addRepository(
                 RepositoryData(
                     name = repoName,
-                    url = repoUrl
+                    url = repoUrl,
+                    iconUrl = miraiIconUrl
                 )
             )
         }
@@ -2062,6 +2064,26 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
         
         // Start the download queue
         DownloadQueueManager.init(this)
+
+    lifecycleScope.launch(Dispatchers.IO) {
+        kotlinx.coroutines.delay(2500)
+
+        val repoUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/builds/repo.json"
+        val miraiIconUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/main/.github/icon/icon.png"
+        val repoName = "MiraiExt"
+
+        val currentRepos = RepositoryManager.getRepositories()
+
+        if (currentRepos.none { it.url == repoUrl }) {
+
+            RepositoryManager.addRepository(
+                RepositoryData(
+                    name = repoName,
+                    url = repoUrl,
+                    iconUrl = miraiIconUrl
+                )
+            )
+        }
     }
 
     /** Biometric stuff **/
