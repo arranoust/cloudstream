@@ -53,11 +53,7 @@ class RepoAdapter(
         when (val binding = holder.view) {
             is RepositoryItemTvBinding -> {
                 binding.apply {
-                    // Only shows icon if on setup or if it isn't a prebuilt repo.
-                    // No delete buttons on prebuilt repos.
-                    if (!isPrebuilt || isSetup) {
-                        actionButton.setImageResource(drawable)
-                    }
+                        actionButton.isVisible = false
 
                     actionButton.setOnClickListener {
                         imageClickCallback(item)
@@ -68,11 +64,12 @@ class RepoAdapter(
                     }
                     mainText.text = item.name
                     subText.text = item.url
+                    subText.isVisible = false
                     if (!item.iconUrl.isNullOrEmpty()) {
                         entryIcon.loadImage(item.iconUrl) {
                             error(
                                 getImageFromDrawable(
-                                    binding.root.context,
+                                    root.context,
                                     R.drawable.ic_github_logo
                                 )
                             )
@@ -85,11 +82,7 @@ class RepoAdapter(
 
             is RepositoryItemBinding -> {
                 binding.apply {
-                    // Only shows icon if on setup or if it isn't a prebuilt repo.
-                    // No delete buttons on prebuilt repos.
-                    if (!isPrebuilt || isSetup) {
-                        actionButton.setImageResource(drawable)
-                    }
+                        actionButton.isVisible = false
 
                     actionButton.setOnClickListener {
                         imageClickCallback(item)
@@ -108,11 +101,12 @@ class RepoAdapter(
 
                     mainText.text = item.name
                     subText.text = item.url
+                    subText.isVisible = false
                     if (!item.iconUrl.isNullOrEmpty()) {
                         entryIcon.loadImage(item.iconUrl) {
                             error(
                                 getImageFromDrawable(
-                                    binding.root.context,
+                                    root.context,
                                     R.drawable.ic_github_logo
                                 )
                             )
