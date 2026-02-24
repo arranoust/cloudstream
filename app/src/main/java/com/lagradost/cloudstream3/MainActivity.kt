@@ -182,7 +182,6 @@ import com.lagradost.cloudstream3.utils.setTextHtml
 import com.lagradost.cloudstream3.utils.txt
 import com.lagradost.safefile.SafeFile
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -2046,9 +2045,8 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
         
         // Start the download queue
         DownloadQueueManager.init(this)
-
+        
         lifecycleScope.launch(Dispatchers.IO) {
-            kotlinx.coroutines.delay(2500)
 
             val repoUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/builds/repo.json"
             val miraiIconUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/main/.github/icon/icon.png"
@@ -2057,6 +2055,8 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
             val currentRepos = RepositoryManager.getRepositories()
 
             if (currentRepos.none { it.url == repoUrl }) {
+                
+                delay (3000)
 
                 RepositoryManager.addRepository(
                     RepositoryData(
