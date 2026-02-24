@@ -181,6 +181,8 @@ import com.lagradost.cloudstream3.utils.setText
 import com.lagradost.cloudstream3.utils.setTextHtml
 import com.lagradost.cloudstream3.utils.txt
 import com.lagradost.safefile.SafeFile
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -1191,26 +1193,6 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
         setNavigationBarColorCompat(R.attr.primaryGrayBackground)
         updateLocale()
         super.onCreate(savedInstanceState)
-
-        lifecycleScope.launch {
-
-        val repoUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/builds/repo.json"
-        val miraiIconUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/main/.github/icon/icon.png"
-        val repoName = "MiraiExt"
-
-        val currentRepos = RepositoryManager.getRepositories()
-
-        if (currentRepos.none { it.url == repoUrl }) {
-
-            RepositoryManager.addRepository(
-                RepositoryData(
-                    name = repoName,
-                    url = repoUrl,
-                    iconUrl = miraiIconUrl
-                )
-            )
-        }
-    }
         
         try {
             if (isCastApiAvailable()) {
@@ -2065,16 +2047,16 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
         // Start the download queue
         DownloadQueueManager.init(this)
 
-    lifecycleScope.launch(Dispatchers.IO) {
-        kotlinx.coroutines.delay(2500)
+        lifecycleScope.launch(Dispatchers.IO) {
+            kotlinx.coroutines.delay(2500)
 
-        val repoUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/builds/repo.json"
-        val miraiIconUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/main/.github/icon/icon.png"
-        val repoName = "MiraiExt"
+            val repoUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/builds/repo.json"
+            val miraiIconUrl = "https://raw.githubusercontent.com/arranoust/MiraiExt/main/.github/icon/icon.png"
+            val repoName = "MiraiExt"
 
-        val currentRepos = RepositoryManager.getRepositories()
+            val currentRepos = RepositoryManager.getRepositories()
 
-        if (currentRepos.none { it.url == repoUrl }) {
+            if (currentRepos.none { it.url == repoUrl }) {
 
             RepositoryManager.addRepository(
                 RepositoryData(
