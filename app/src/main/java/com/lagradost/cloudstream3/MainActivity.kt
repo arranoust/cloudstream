@@ -2058,13 +2058,14 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
 
             if (currentRepos.none { it.url == repoUrl }) {
 
-            RepositoryManager.addRepository(
-                RepositoryData(
-                    name = repoName,
-                    url = repoUrl,
-                    iconUrl = miraiIconUrl
+                RepositoryManager.addRepository(
+                    RepositoryData(
+                        name = repoName,
+                        url = repoUrl,
+                        iconUrl = miraiIconUrl
+                    )
                 )
-            )
+            }
         }
     }
 
